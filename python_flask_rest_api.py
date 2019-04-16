@@ -9,7 +9,7 @@ app = Flask('friends_network')
 friends = [
 {
     'name': 'John Warner',
-    'friend_list': [
+    'friendlist': [
         {
         'name': 'David Karter',
         'sex': 'M',
@@ -33,7 +33,7 @@ def add_friend():
     request_data = request.get_json()
     new_friend = {
         'name': request_data['name'],
-        'friend_list': []
+        'friendlist': []
     }
     friends.append(new_friend)
     return jsonify(new_friend)
@@ -49,26 +49,26 @@ def get_friend(name):
 def get_friends():
     return jsonify({'friends': friends})
 
-# POST /friend/<string:name>/friend_list {name:, sex:, city}
-@app.route('/friend/<string:name>/friend_list', methods=['POST'])
+# POST /friend/<string:name>/friendlist {name:, sex:, city}
+@app.route('/friend/<string:name>/friendlist', methods=['POST'])
 def add_new_friend(name):
     for friend in friends:
         if friend['name'] == name:
             request_data = request.get_json()
-            new_friend_list = {
+            new_friendlist = {
                 'name': request_data['name'],
                 'sex': request_data['sex'],
                 'city': request_data['city']
             }
-            friend['friend_list'].append(new_friend_list)
+            friend['friendlist'].append(new_friendlist)
             return jsonify(friend)
     return jsonify({'error message': name + ' is not in your friend list'})
-# GET /friend/<string:name>/friend_list
-@app.route('/friend/<string:name>/friend_list')
-def get_friend_from_friend_list(name):
+# GET /friend/<string:name>/friendlist
+@app.route('/friend/<string:name>/friendlist')
+def get_friend_from_friendlist(name):
     for friend in friends:
         if friend['name'] == name:
-            return jsonify({'friend_list': friend['friend_list']})
+            return jsonify({'friendlist': friend['friendlist']})
     return jsonify({'error message': name + ' is not in your friend list'})
 
 # run localhost at port 1950
